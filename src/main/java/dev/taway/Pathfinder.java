@@ -65,8 +65,8 @@ public class Pathfinder {
                     "For map size " + mapSize.getFirst() + "x" + mapSize.getSecond() + " the max iteration count is " + exitIteration);
         }
 
-        pathMap[startPos.getFirst()][startPos.getSecond()] = ConsoleColor.YELLOW.COLOR + "o" + ConsoleColor.RESET.COLOR;
-        pathMap[endPos.getFirst()][endPos.getSecond()] = ConsoleColor.YELLOW.COLOR + "X" + ConsoleColor.RESET.COLOR;
+        pathMap[startPos.getFirst()][startPos.getSecond()] = Main.color + "o" + ConsoleColor.RESET.COLOR;
+        pathMap[endPos.getFirst()][endPos.getSecond()] = Main.color + "X" + ConsoleColor.RESET.COLOR;
 
         map.setMap(new Trio<>(climbMap, distanceMap, pathMap));
     }
@@ -86,7 +86,7 @@ public class Pathfinder {
             // Get directional character:
             char dirChar = surroundings.getFirst()[1 + dir.getDeltaX()][1 + dir.getDeltaY()];
             // Return if in this direction is the end
-            if(dirChar == 'E') return dir;
+            if(dirChar == 'E' && centerChar == 'z') return dir;
             // I don't know. its just how likely the algorithm should be to take that specific route. Bigger = better
             int heat = 0;
             // The difference between the one being currently compared and the middle one
