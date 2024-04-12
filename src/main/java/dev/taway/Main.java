@@ -12,7 +12,10 @@ public class Main {
         RuntimeConfig.LOGGING.DISABLE_LOG_FILE = true;
         RuntimeConfig.LOGGING.MINIMUM_LOG_LEVEL_CONSOLE = LogLevel.DEBUG;
 
+        // This one works:
         Map map = new Map("Sabqponm;abcryxxl;accszExk;acctuvwj;abdefghi;");
+        // This one does not. Should it ? :>
+//        Map map = new Map("Sabcdefghijklmnopqrstuvwxyz;abcdefghijklmnopqrsttvwxyzz;bcdefghijklmnopqrstutwxyzzz;cdefghijklmnopqrstuvtxtuzxy;defghijklmnopqrstuvwtytuzwy;efghijklmnopqrstuvwxtttuzwy;fghijklmnopqrstuvwxyzzzvvwy;ghijklmnopqrstuvwxaartaEzzz;hijklmnopqrstuvwxyteartzate;ijklmnopqrstuvwxyyyyyyyzbas;");
         Pathfinder pathfinder = new Pathfinder(map);
 
         pathfinder.findPath();

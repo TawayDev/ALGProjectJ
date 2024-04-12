@@ -58,11 +58,13 @@ public class Pathfinder {
 
         if (terminatePathfinding) {
             log.error("Pathfinder could not find a correct move on iteration " + iteration + "/" + exitIteration);
+            pathMap[currentPos.getFirst()][currentPos.getSecond()] = ConsoleColor.RED_BOLD_BRIGHT.COLOR + "/" + ConsoleColor.RESET.COLOR;
         }
 
         if(iteration == exitIteration) {
             log.error("Pathfinder has run the maximum amount of iterations. To avoid infinity loop the search has been cancelled." +
                     "For map size " + mapSize.getFirst() + "x" + mapSize.getSecond() + " the max iteration count is " + exitIteration);
+            pathMap[currentPos.getFirst()][currentPos.getSecond()] = ConsoleColor.RED_BOLD_BRIGHT.COLOR + "/" + ConsoleColor.RESET.COLOR;
         }
 
         pathMap[startPos.getFirst()][startPos.getSecond()] = Main.color + "o" + ConsoleColor.RESET.COLOR;
