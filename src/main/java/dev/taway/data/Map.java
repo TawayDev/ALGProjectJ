@@ -4,6 +4,7 @@ import dev.taway.tutil.data.Pair;
 import dev.taway.tutil.data.Trio;
 import dev.taway.tutil.logging.Logger;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.lang.reflect.Type;
 
@@ -15,6 +16,7 @@ public class Map {
      * 2) Distance to end <br>
      * 3) Path
      */
+    @Setter
     private Trio<char[][], int[][], String[][]> map;
 
     // Meta
@@ -53,12 +55,7 @@ public class Map {
         stringMap[start.getFirst()][start.getSecond()] = "o";
         stringMap[end.getFirst()][end.getSecond()] = "X";
 
-        char[][] simplifiedMap = simplifyMap();
-
-        simplifiedMap[start.getFirst()][start.getSecond()] = 'S';
-        simplifiedMap[end.getFirst()][end.getSecond()] = 'E';
-
-        this.map = new Trio<>(simplifiedMap, distanceMap, stringMap);
+        this.map = new Trio<>(charMap, distanceMap, stringMap);
     }
 
     private int[][] calculateDistanceMap() {
@@ -122,37 +119,24 @@ public class Map {
         }
     }
 
-    public char[][] simplifyMap() {
-        char[][] newMap = new char[size.getFirst()][size.getSecond()];
-        for (int i = 0; i < size.getFirst(); i++) {
-            for (int j = 0; j < size.getFirst(); j++) {
-                char[][] surr = getSurroundings(new Pair<>(i,j));
-                boolean keep = false;
-                for(Direction d : Direction.values()) {
-                    int comp = surr[1+d.getDeltaX()][1+d.getDeltaY()];
-                    int center = surr[1][1];
-                    if (Math.abs(comp - center) == 1 || Math.abs(comp - center) == 0) {
-                        keep = true;
-                        break;
-                    }
-                }
-                newMap[i][j] = keep ? map.getFirst()[i][j] : Character.MAX_VALUE;
-            }
-        }
-        return newMap;
-    }
+    public Trio<char[][], int[][], String[][]> getSurroundings(Pair<Integer, Integer> point) {
+        char[][] surrChars = new char[3][3];
+        int[][] surrDist = new int[3][3];
+        String[][] surrPath = new String[3][3];
 
-    public char[][] getSurroundings(Pair<Integer, Integer> point) {
-        char[][] surroundings = new char[3][3];
         for (int i = point.getFirst() - 1, x = 0; i <= point.getFirst() + 1; i++, x++) {
             for (int j = point.getSecond() - 1, y = 0; j <= point.getSecond() + 1; j++, y++) {
                 if (i >= 0 && i < size.getFirst() && j >= 0 && j < size.getSecond()) {
-                    surroundings[x][y] = map.getFirst()[i][j];
+                    surrChars[x][y] = map.getFirst()[i][j];
+                    surrDist[x][y] = map.getSecond()[i][j];
+                    surrPath[x][y] = map.getThird()[i][j];
                 } else {
-                    surroundings[x][y] = Character.MAX_VALUE;
+                    surrChars[x][y] = Character.MAX_VALUE;
+                    surrDist[x][y] = Integer.MAX_VALUE;
+                    surrPath[x][y] = String.valueOf(Character.MAX_VALUE);
                 }
             }
         }
-        return surroundings;
+        return new Trio<>(surrChars, surrDist, surrPath);
     }
 }
