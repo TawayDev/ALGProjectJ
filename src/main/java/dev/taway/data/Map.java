@@ -1,5 +1,6 @@
 package dev.taway.data;
 
+import dev.taway.data.history.Path;
 import dev.taway.tutil.data.Pair;
 import dev.taway.tutil.data.Trio;
 import dev.taway.tutil.logging.Logger;
@@ -17,7 +18,7 @@ public class Map {
      * 3) Path
      */
     @Setter
-    private Trio<char[][], int[][], String[][]> map;
+    private Trio<char[][], int[][], Path> map;
 
     // Meta
     // Size rows (first) and columns (second)
@@ -55,7 +56,7 @@ public class Map {
         stringMap[start.getFirst()][start.getSecond()] = "o";
         stringMap[end.getFirst()][end.getSecond()] = "X";
 
-        this.map = new Trio<>(charMap, distanceMap, stringMap);
+        this.map = new Trio<>(charMap, distanceMap, new Path(stringMap));
     }
 
     private int[][] calculateDistanceMap() {
@@ -111,12 +112,7 @@ public class Map {
         }
 
         System.out.println("PATH:");
-        for (String[] dat : map.getThird()) {
-            for (int j = 0; j < dat.length; j++) {
-                System.out.print(dat[j] + " ");
-            }
-            System.out.println();
-        }
+        map.getThird().printPath();
     }
 
     public Trio<char[][], int[][], String[][]> getSurroundings(Pair<Integer, Integer> point) {
@@ -129,7 +125,7 @@ public class Map {
                 if (i >= 0 && i < size.getFirst() && j >= 0 && j < size.getSecond()) {
                     surrChars[x][y] = map.getFirst()[i][j];
                     surrDist[x][y] = map.getSecond()[i][j];
-                    surrPath[x][y] = map.getThird()[i][j];
+                    surrPath[x][y] = map.getThird().getPathAtPosition(new Pair<>(i,j)).getFirst();
                 } else {
                     surrChars[x][y] = Character.MAX_VALUE;
                     surrDist[x][y] = Integer.MAX_VALUE;

@@ -6,10 +6,10 @@ import lombok.Getter;
 
 @Getter
 public enum Direction {
-    UP(-1, 0, Main.color + "↑" + ConsoleColor.RESET.COLOR),
-    DOWN(1, 0, Main.color + "↓" + ConsoleColor.RESET.COLOR),
-    LEFT(0, -1, Main.color + "←" + ConsoleColor.RESET.COLOR),
-    RIGHT(0, 1, Main.color + "→" + ConsoleColor.RESET.COLOR),
+    UP(-1, 0, "↑"),
+    DOWN(1, 0, "↓"),
+    LEFT(0, -1, "←"),
+    RIGHT(0, 1, "→"),
     NONE(0,0, ""),
     DONE(0,0, "");
 
